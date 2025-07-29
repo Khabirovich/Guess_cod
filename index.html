@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Отгадай код</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Firebase SDK (optional, works only if you replace the keys in app.js) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+<body>
+  <!-- Home view -->
+  <div id="home-view" class="container py-16 flex flex-col gap-16 items-center justify-center" style="min-height: 100vh;">
+    <h1>Отгадай код</h1>
+    <div class="card" style="width: 100%; max-width: 420px;">
+      <div class="card__body flex flex-col gap-16">
+        <div class="form-group">
+          <label class="form-label" for="playerName">Ваше имя</label>
+          <input id="playerName" type="text" class="form-control" placeholder="Имя игрока" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="roomCode">Код комнаты (6 символов)</label>
+          <input id="roomCode" type="text" maxlength="6" class="form-control" placeholder="Напр. ABC123" />
+        </div>
+        <div class="flex gap-8">
+          <button id="createRoomBtn" class="btn btn--primary btn--full-width">Создать комнату</button>
+          <button id="joinRoomBtn" class="btn btn--outline btn--full-width">Подключиться</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game view -->
+  <div id="game-view" class="container py-16 hidden flex flex-col gap-16">
+    <div class="flex justify-between items-center">
+      <h2>Комната <span id="displayRoomCode"></span></h2>
+      <div class="flex gap-8 items-center">
+        <span class="status" id="playerAStatus"></span>
+        <span class="status" id="playerBStatus"></span>
+      </div>
+    </div>
+
+    <!-- Индикация очереди -->
+    <div id="turnIndicator" class="turn-indicator hidden"></div>
+
+    <!-- Поле ввода и клавиатура -->
+    <div class="card keypad-card">
+      <div class="card__body flex flex-col gap-16 items-center">
+        <div id="currentGuessDisplay" class="current-guess"></div>
+
+        <!-- Матрица кнопок 3x4 -->
+        <div class="keypad">
+          <!-- 1 ряд -->
+          <button class="keypad-btn" data-digit="1">1</button>
+          <button class="keypad-btn" data-digit="2">2</button>
+          <button class="keypad-btn" data-digit="3">3</button>
+          <!-- 2 ряд -->
+          <button class="keypad-btn" data-digit="4">4</button>
+          <button class="keypad-btn" data-digit="5">5</button>
+          <button class="keypad-btn" data-digit="6">6</button>
+          <!-- 3 ряд -->
+          <button class="keypad-btn" data-digit="7">7</button>
+          <button class="keypad-btn" data-digit="8">8</button>
+          <button class="keypad-btn" data-digit="9">9</button>
+          <!-- 4 ряд: Отправить | 0 | Заново -->
+          <button id="sendGuessBtn" class="keypad-btn keypad-btn--send" disabled>Отправить</button>
+          <button class="keypad-btn" data-digit="0">0</button>
+          <button id="resetBtn" class="keypad-btn keypad-btn--reset">Заново</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- История ходов -->
+    <div class="card">
+      <div class="card__body flex flex-col gap-16">
+        <table class="history-table" style="width:100%; border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Игрок</th>
+              <th>Число</th>
+              <th>Мои БК</th>
+              <th>Оппонент БК</th>
+            </tr>
+          </thead>
+          <tbody id="history"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Win modal -->
+  <div id="win-modal" class="modal hidden">
+    <div class="card" style="max-width: 320px; width:100%;">
+      <div class="card__body flex flex-col gap-16 items-center">
+        <h3 id="winMessage"></h3>
+        <button class="btn btn--primary" onclick="location.reload()">Играть снова</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
