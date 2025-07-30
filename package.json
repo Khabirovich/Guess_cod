@@ -1,0 +1,14 @@
+{
+  "name": "bulls-and-cows-game",
+  "version": "1.0.0",
+  "description": "Multiplayer Bulls and Cows guessing game",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python3 -m http.server 3000",
+    "build": "echo 'Static site - no build needed'",
+    "start": "python3 -m http.server 8080"
+  },
+  "keywords": ["game", "bulls-and-cows", "multiplayer"],
+  "author": "Your Name",
+  "license": "MIT"
+}
